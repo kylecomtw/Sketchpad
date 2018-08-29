@@ -16,6 +16,7 @@ class LongTermMemory:
         for lemma_x in lemmas:
             rel_list += self.query_concept_net(lemma_x)
             # rel_list += self.query_babel_net(lemma_x)
+        
         return rel_list
 
     def query_concept_net(self, lemma):
@@ -37,9 +38,11 @@ class LongTermMemory:
             rel_list.append(rel)
         weights = np.array([x.get("weight", 0) for x in edges])
         probs = weights / np.sum(weights)        
-        sel_indices = np.random.choice(len(rel_list), min(5, len(rel_list)), False, probs)
 
-        rel_list = [rel_list[x] for x in sel_indices]
+        if rel_list:
+            sel_indices = np.random.choice(len(rel_list), min(5, len(rel_list)), False, probs)
+            rel_list = [rel_list[x] for x in sel_indices]
+        
         return rel_list
 
     def query_babel_net(self, lemma):

@@ -21,6 +21,7 @@ class Creativity:
         logger.info(strategy_func)
         thought = strategy_func[0]()
         # thought = self.spread()
+        thought.wm = self.props
 
         self.forget()
         self.memory["trace"] += self.memory["working"]
@@ -41,22 +42,26 @@ class Creativity:
         props = self.props
         thought = Thought()
         if not memory or not memory.get("trace", []):            
-            prop_x = self.pick_object(props, 1)
-            thought.implicit = ("prop", prop_x[0])
+            thought = self.spread()
         else:
             trace = self.memory.get("trace", [])            
             trace_prob = np.arange(len(trace)) / np.sum(np.arange(len(trace)))
             pick = self.pick_object(trace, 1)[0]            
             thought.implicit = ("key", pick)
-        thought.intention = "pursue"
+            thought.intention = "pursue"
         return thought
     
     def spread(self):
         """ spread across other possibilities
         """        
         thought = Thought()
-        prop_x = self.pick_object(self.props, 1)
-        thought.implicit = ("prop", prop_x[0])
+        assoc_set = set()
+        for prop_x in self.props:
+            assoc_set.add(prop_x[0])
+            assoc_set.add(prop_x[2])            
+        assoc_set = assoc_set.difference(self.memory["working"])        
+
+        thought.implicit = ("assoc", list(assoc_set))
         thought.intention = "spread"
         return thought
     

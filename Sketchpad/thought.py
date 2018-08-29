@@ -3,6 +3,7 @@ class Thought:
     def __init__(self):
         self.verbal = ""
         self.intention = ""
+        self.wm = {}
         self.implicit = {}
         self.action = {}
         self.sensory = {}   

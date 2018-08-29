@@ -6,6 +6,9 @@ import json
 import pickle
 import jieba.posseg as pseg
 import numpy as np
+from .ltm import LongTermMemory
+from .lang_decoder import LanguageDecoder
+from .creativity import Creativity
 from .thought import Thought
 
 logger = logging.getLogger("Sketchpad.WanderEngine")
@@ -25,19 +28,30 @@ class WanderEngine:
             memory = json.loads(memoryStr)
         except:
             memory = {}
-                
-        nns = self.get_noun_compound(intext)
+        
+        lang_decoder = LanguageDecoder()     
+        nns = self.get_noun_compounds(intext)
         weights = self.get_nns_weightings(nns)
         keywords = self.sample_nns(nns, weights, n=2)
-        
-        memory["working"] = keywords
-        ltm = LongTermMemory()
-        props = ltm.retrieve(keywords)
-        creativity = Creativity(props, memory)
-        thought = creativity.diversify()  # type: Thought        
-        memoryJson = json.dumps(creativity.memory)
+        try:            
+            memory["working"] = keywords
+            ltm = LongTermMemory()
+           
+            props = ltm.retrieve(keywords)
+            if not props:
+                raise Exception("No props can be retrieved")
+            creativity = Creativity(props, memory)
+            thought = creativity.diversify()  # type: Thought                    
+        except Exception as ex:
+            logger.error(ex)
+            import traceback; traceback.print_exc()
+            thought = Thought()
+            creativity = Creativity([], memory)
+            thought = creativity.random()            
+        respText = lang_decoder.decode(thought)                
+        memoryJson = json.dumps(creativity.memory, ensure_ascii=False)
 
-        return thought, memoryJson
+        return respText, memoryJson
     
     def get_noun_compounds(self, intext):
         wds = pseg.cut(intext)        
@@ -52,5 +66,9 @@ class WanderEngine:
         return nn_weights
     
     def sample_nns(self, nns, weights, n=1):
-        probs = weights / np.sum(weights)
-        return np.random.choice(nns, n, False, probs)
+        if nns:
+            probs = weights / np.sum(weights)
+            return np.random.choice(nns, min(n, len(nns)),
+                    False, probs).tolist()
+        else:
+            return []
