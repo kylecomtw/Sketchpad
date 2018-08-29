@@ -10,11 +10,11 @@ logger.setLevel("INFO")
 
 class LanguageDecoderTest(TestCase):
     def test_LanguageDecoder(self):
-        props = [('知識', 'Causes', '財富', '[[知識]] 可能會帶來 [[財富]]。'), 
-            ('讀書', 'Causes', '知識', '[[讀書]] 可能會帶來 [[知識]]。'), 
-            ('書本', 'MadeOf', '知識', '[[書本]] 可以用 [[知識]] 製成。'), 
-            ('上課', 'Causes', '知識', '[[上課]] 可能會帶來 [[知識]]。'), 
-            ('唸書', 'Causes', '知識', '[[唸書]] 可能會帶 來 [[知識]]。')]
+        props = [('語言', 'PartOf', '表達', '[[語言]] 是 [[表達]] 的一部分。', 2.0), 
+            ('語言', 'MadeOf', '字母', '[[語言]] 可以用 [[字母]] 製成。', 2.0), 
+            ('語言', 'PartOf', '生活', '[[語言]] 是 [[生活]] 的一部分。', 2.0), 
+            ('語言', 'UsedFor', '聊天', '*[[聊天]] 的時候可能會用到 [[語言]]。', 2.8284),
+            (' 語言', 'IsA', '溝通工具', '[[語言]] 是一種 [[溝通工具]]。', 2.0)]
 
         lang_decoder = LanguageDecoder()
         t1 = Thought()
@@ -25,7 +25,7 @@ class LanguageDecoderTest(TestCase):
         t2 = Thought()
         t2.intention = "spread"
         t2.wm = props
-        t2.implicit = ("assoc", ['書本', '讀書', '上課', '財富', '唸書'])
+        t2.implicit = ("assoc", '書本'])
         logger.info(lang_decoder.decode(t2))
 
         t3 = Thought()

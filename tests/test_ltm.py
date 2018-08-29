@@ -10,5 +10,5 @@ logger.setLevel("INFO")
 class LtmTest(TestCase):
     def test_ltm(self):
         ltm = LongTermMemory()
-        rel_list = ltm.retrieve(["知識"])
+        rel_list = ltm.retrieve(["語言"])
         logger.info(rel_list)

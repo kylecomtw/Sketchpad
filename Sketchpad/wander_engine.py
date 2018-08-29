@@ -33,17 +33,14 @@ class WanderEngine:
         lang_decoder = LanguageDecoder()     
         nns = self.get_noun_compounds(intext)
         weights = self.get_nns_weightings(nns)
-        keywords = self.sample_nns(nns, weights, n=2)
+        keywords = self.sample_nns(nns, weights, n=5)
         keywords = self.ior(keywords, memory.get("trace", []))
         logger.info("keywords: %s", keywords)
-        
-        try:            
-            memory["working"] = keywords
-            ltm = LongTermMemory()
-           
-            props = ltm.retrieve(keywords)
-            if not props:
-                raise Exception("No props can be retrieved")
+
+        try:                        
+            ltm = LongTermMemory()           
+            keyword, props = ltm.retrieve(keywords)
+            memory["working"] = keyword            
             creativity = Creativity(props, memory)
             thought = creativity.diversify()  # type: Thought                    
         except Exception as ex:

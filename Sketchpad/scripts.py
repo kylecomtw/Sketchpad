@@ -1,15 +1,16 @@
 
 pursue_templates = [
-    "剛剛有說到{key}吧，那真是個有趣的事情！",
-    "我又想到{key}了....."    
+    "剛剛有提過{key}。我找到一個和{title}有關的東西{content}",
+    "說到{key}.....維基有相關的東西：{content}"    
 ]
 
 spread_templates = [
-    "哈！居然會有{key}。"
+    "至於{key}...",
+    "{key}！"
 ]
 
 reflection_templates = [
-    "你好像對{key}很有興趣。"
+    "你好像對{key}很有興趣。我找到一個和{title}有關的東西{content}"
 ]
 
 elicit_templates = [
@@ -18,7 +19,7 @@ elicit_templates = [
 ]
 
 connectives_templates = [
-    "而且", "還有", "而"
+    "而且", "還有", "也", "還是"
 ]
 
 script_templates = {

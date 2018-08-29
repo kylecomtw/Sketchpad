@@ -24,23 +24,25 @@ class LanguageDecoder:
             resp = "..."
         return resp
 
-    def decode_pursue(self, props, impl):
-        key = impl[1]        
+    def decode_pursue(self, props, impl):        
+        key, title, content = impl[1]
         templ = self.load_template("pursue")
-        return templ.format(key = key)
+        return templ.format(key = key, title=title, content=content)
 
     def decode_spread(self, props, impl):              
-        assoc = np.random.choice(impl[1], 1).tolist()[0]
-        respText = ""      
+        assoc = impl[1]
+        respText = props[0][0]      
         i = 0          
         for prop_x in props:      
             if not isinstance(prop_x[3], str): continue
-            text = re.sub(r"[\[\]\s*]", "", prop_x[3])
+            text = prop_x[3]
+            text = text.replace("[[%s]]" % (prop_x[0]), "")
+            text = re.sub(r"[\[\]\s*]", "", text)
             text = text.replace("。", "，")
-            if i > 0: respText += self.load_template("connectives")        
+            if i > 0 and i % 2 == 0: respText += self.load_template("connectives")        
             respText += text
             i += 1
-        respText += self.load_template("spread").format(key=assoc)
+        respText = self.load_template("spread").format(key=assoc) + respText
         return respText
     
     def decode_psychoanalysis(self, props, impl):

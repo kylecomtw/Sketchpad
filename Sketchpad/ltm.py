@@ -13,12 +13,17 @@ class LongTermMemory:
         self.hv = HanziConv()
 
     def retrieve(self, lemmas): 
-        rel_list = []
+        rel_object = {}
         for lemma_x in lemmas:
-            rel_list += self.query_concept_net(lemma_x)
+            rel_object[lemma_x] = self.query_concept_net(lemma_x)
             # rel_list += self.query_babel_net(lemma_x)
+        lemma_sorted = sorted(rel_object.keys(), key=lambda x: -len(rel_object[x]))
         
-        return rel_list
+        if lemma_sorted:
+            rel_list = rel_object[lemma_sorted[0]]
+            return lemma_sorted[0], rel_list
+        else:
+            return lemmas[0], []
 
     def query_concept_net(self, lemma):
         cnet_url = "http://api.conceptnet.io/c/zh/{lemma}"
@@ -34,16 +39,19 @@ class LongTermMemory:
             end_label = edge_x.get("end", {}).get("label", "")
             rel_label = edge_x.get("rel", {}).get("label", "")            
             surface_text = edge_x["surfaceText"]
-            if not surface_text: continue
-                
+            if not surface_text: continue            
             if len(re.findall("[a-zA-Z]", surface_text)) > 1:
                 continue
 
+            if start_label != lemma:
+                continue
+
+            weight = edge_x.get("weight", 0)
             rel = (start_label, rel_label, end_label,
-                    surface_text)
+                    surface_text, weight)
             rel_list.append(rel)
-        weights = np.array([x.get("weight", 0) for x in edges])
-        probs = weights / np.sum(weights)        
+        weights = np.array([x[4] for x in rel_list])
+        probs = weights / np.sum(weights)
 
         if rel_list:
             sel_indices = np.random.choice(len(rel_list), min(5, len(rel_list)), False, probs)

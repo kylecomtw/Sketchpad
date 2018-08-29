@@ -28,7 +28,10 @@ class WanderEngineTest(TestCase):
     
     def test_wander(self):
         we = WanderEngine()
-        respText, memory = we.wander("這省")
+        respText, memory = we.wander(
+            "語言是人類的精髓，也是機器理解與學習人類智能的最大挑戰之一。" + \
+            "我們希望這個活動，能夠開始醞釀新的語言科學與科技教育思維，跨越" + \
+            "文理的學門藩籬讓人才找得到舞台，舞台找得到人才")
         logger.info(respText)
         respText, memory = we.wander(respText, memory)
         logger.info(respText)

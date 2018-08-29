@@ -34,4 +34,9 @@ def wander():
 @base_bp.route("/memory", methods=["GET"])
 def memory():
     return session.get("memory", "")
+
+@base_bp.route("/memory", methods=["DELETE"])
+def delete_memory():
+    session["memory"] = "{}"
+    return jsonify(status="ok")
     
