@@ -23,10 +23,9 @@ def wander():
         resp.status_code = 400
         return resp
     
-    memory = session.get("memory", "{}")
+    memory = session.get("memory", "{}")    
     respText, memory = we.wander(input_text, memory) 
-    session["memory"] = memory
-        
+    session["memory"] = memory    
     session.modified = True
     resp = jsonify(status="ok", responseText=respText)
     return resp

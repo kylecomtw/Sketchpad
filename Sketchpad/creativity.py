@@ -56,6 +56,7 @@ class Creativity:
         else:
             trace = self.memory.get("trace", []).copy()
             visited_list = self.memory.get("visited", [])
+            
             for visited in visited_list:
                 if visited in trace:
                     trace.remove(visited)
@@ -67,7 +68,8 @@ class Creativity:
             thought.implicit = ("elicit", (pick, title, content))
             thought.intention = "pursue"
             
-            visited_list.append(pick)
+            visited_list.append(pick)            
+            logger.info("Visited: %s", visited_list)
             self.memory["visited"] = visited_list
         return thought
     
