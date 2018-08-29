@@ -1,0 +1,7 @@
+flask
+flask-cor
+requests
+requests_cache
+wikipedia
+jieba
+hanziconv
