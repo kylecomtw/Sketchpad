@@ -1,7 +1,9 @@
+numpy
 flask
-flask-cor
+flask-cors
 requests
 requests_cache
 wikipedia
 jieba
 hanziconv
+gunicorn

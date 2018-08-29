@@ -1,2 +1,2 @@
-kill -9 $(cat tcsl_back.pid)
-rm tcsl_back.pid
+kill -9 $(cat sketchpad.pid)
+rm sketchpad.pid
