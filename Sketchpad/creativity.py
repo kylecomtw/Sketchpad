@@ -4,6 +4,7 @@ import numpy as np
 import logging
 
 logger = logging.getLogger("Sketchpad.Creativity")
+wiki = Wikipedia()
 
 class Creativity:
     def __init__(self, props, memory):
@@ -24,7 +25,12 @@ class Creativity:
         thought.wm = self.props
 
         self.forget()
-        self.memory["trace"] += self.memory["working"]
+        trace = self.memory["trace"]
+        for work_x in self.memory.get("working", []):
+            if work_x in trace: trace.remove(work_x)
+            trace.append(work_x)
+        self.memory["trace"] = trace
+        
         return thought
     
     def forget(self):
@@ -76,8 +82,7 @@ class Creativity:
 
     def random(self):
         """ repeat the keywords
-        """    
-        wiki = Wikipedia()
+        """            
         title, content = wiki.random_content()
         thought = Thought()
         thought.intention = "elicit"

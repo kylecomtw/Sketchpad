@@ -23,10 +23,15 @@ def wander():
         resp.status_code = 400
         return resp
     
-    thought, memory = we.wander(input_text, session["memory"]) 
+    memory = session.get("memory", "{}")
+    respText, memory = we.wander(input_text, memory) 
     session["memory"] = memory
         
     session.modified = True
-    resp = jsonify(status="ok", responseText=thought.responseText)
+    resp = jsonify(status="ok", responseText=respText)
     return resp
+
+@base_bp.route("/memory", methods=["GET"])
+def memory():
+    return session.get("memory", "")
     
