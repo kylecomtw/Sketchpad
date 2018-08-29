@@ -1,11 +1,11 @@
 #! /bin/bash
-source tcsl_venv/bin/activate
-nohup gunicorn -b 0.0.0.0:8188 -n TcslBack \
+source sketchpad_venv/bin/activate
+nohup gunicorn -b 0.0.0.0:9091 -n Sketchpad \
     --access-logfile access.log \
     --error-logfile error.log \
     --log-level debug \
-    --pid tcsl_back.pid \
+    --pid sketchpad.pid \
     --timeout 30 \
     --worker-class gthread \
     --workers 2 --threads 4 \
-    wsgi:app > tcsl_back.log &
+    wsgi:app > sketchpad.log &
