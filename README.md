@@ -1,7 +1,7 @@
 Sketchpad
 =========
 
-Sketchpad is a artificial wandering engine utilizing numerous lexical knowledge resources, such as wikipedia, WordNet, BabelNet, ConceptNet, etc.
+Sketchpad is an artificial wandering engine utilizing numerous lexical knowledge resources, such as Wikipedia, WordNet, BabelNet, ConceptNet, etc.
 The name comes from Baddeley's model of working memory, in which sketchpad integrates visual-spatial information.
 Moreover, sketchpad is always a fun stuff to think about. It's creative.
 
