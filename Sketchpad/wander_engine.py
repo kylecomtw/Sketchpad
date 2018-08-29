@@ -30,10 +30,11 @@ class WanderEngine:
         weights = self.get_nns_weightings(nns)
         keywords = self.sample_nns(nns, weights, n=2)
         
+        memory["working"] = keywords
         ltm = LongTermMemory()
         props = ltm.retrieve(keywords)
         creativity = Creativity(props, memory)
-        thought = creativity.diversify()  # type: Thought
+        thought = creativity.diversify()  # type: Thought        
         memoryJson = json.dumps(creativity.memory)
 
         return thought, memoryJson

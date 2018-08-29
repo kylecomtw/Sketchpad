@@ -7,3 +7,4 @@ data/
 __pycache__/
 config.py
 *.pyc
+ltm_cache.*
