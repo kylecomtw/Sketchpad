@@ -13,7 +13,8 @@ reflection_templates = [
 ]
 
 elicit_templates = [
-    "好吧，大概是吧。我昨天發現有個東西再說{title}。{content}。"
+    "對了，我昨天發現有個東西在介紹{title}。{content}。",
+    "你知道{title}嗎？{content}"
 ]
 
 connectives_templates = [

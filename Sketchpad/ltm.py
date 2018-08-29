@@ -3,6 +3,7 @@ import requests_cache
 import asyncio
 import config
 import numpy as np
+import re
 from hanziconv import HanziConv
 
 requests_cache.install_cache('ltm_cache')
@@ -31,8 +32,13 @@ class LongTermMemory:
         for edge_x in edges:
             start_label = edge_x.get("start", {}).get("label", "")
             end_label = edge_x.get("end", {}).get("label", "")
-            rel_label = edge_x.get("rel", {}).get("label", "")
+            rel_label = edge_x.get("rel", {}).get("label", "")            
             surface_text = edge_x["surfaceText"]
+            if not surface_text: continue
+                
+            if len(re.findall("[a-zA-Z]", surface_text)) > 1:
+                continue
+
             rel = (start_label, rel_label, end_label,
                     surface_text)
             rel_list.append(rel)

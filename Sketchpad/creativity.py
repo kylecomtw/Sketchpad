@@ -5,6 +5,7 @@ import logging
 
 logger = logging.getLogger("Sketchpad.Creativity")
 wiki = Wikipedia()
+np.random.seed()
 
 class Creativity:
     def __init__(self, props, memory):
@@ -67,7 +68,7 @@ class Creativity:
             assoc_set.add(prop_x[2])            
         assoc_set = assoc_set.difference(self.memory["working"])        
 
-        thought.implicit = ("assoc", list(assoc_set))
+        thought.implicit = ("assoc", list(assoc_set)[0])
         thought.intention = "spread"
         return thought
     

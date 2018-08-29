@@ -28,7 +28,7 @@ class WanderEngineTest(TestCase):
     
     def test_wander(self):
         we = WanderEngine()
-        respText, memory = we.wander("這台電腦有鉛筆")
+        respText, memory = we.wander("這省")
         logger.info(respText)
         respText, memory = we.wander(respText, memory)
         logger.info(respText)

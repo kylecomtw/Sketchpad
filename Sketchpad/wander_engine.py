@@ -12,6 +12,7 @@ from .creativity import Creativity
 from .thought import Thought
 
 logger = logging.getLogger("Sketchpad.WanderEngine")
+logger.setLevel("INFO")
 
 class WanderEngine:
     def __init__(self):
@@ -33,6 +34,9 @@ class WanderEngine:
         nns = self.get_noun_compounds(intext)
         weights = self.get_nns_weightings(nns)
         keywords = self.sample_nns(nns, weights, n=2)
+        keywords = self.ior(keywords, memory.get("trace", []))
+        logger.info("keywords: %s", keywords)
+        
         try:            
             memory["working"] = keywords
             ltm = LongTermMemory()
@@ -72,3 +76,11 @@ class WanderEngine:
                     False, probs).tolist()
         else:
             return []
+        
+    def ior(self, keywords, visited):
+        for word_x in visited:
+            try:
+                keywords.remove(word_x)
+            except:
+                pass
+        return keywords
