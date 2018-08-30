@@ -36,7 +36,10 @@ class Creativity:
         else:
             strategies = [
                 self.pursue, self.spread, self.random]
-            weights = np.array([1,2,0.1])        
+            if self.memory.get("ngen", 0) > 1:
+                weights = np.array([1,2,0.1])
+            else:
+                weights = np.array([1,2,0])
             strategy_func = np.random.choice(strategies, 1, 
                 False, weights/np.sum(weights)).tolist() 
             logger.info("strategy selected: ")

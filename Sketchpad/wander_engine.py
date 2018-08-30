@@ -47,10 +47,11 @@ class WanderEngine:
         trace = memory.get("trace", [])
         visited = memory.get("visited", [])        
         for key in keywords:
-            if key not in trace and key not in visited:
+            if key not in trace or key not in visited:
                 trace.append(key)
         memory["trace"] = trace
         logger.info("keywords: %s", keywords)
+        logger.info("memory: %s", memory)
 
         try:
             ltm = LongTermMemory()
