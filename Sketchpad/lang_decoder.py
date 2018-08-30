@@ -8,6 +8,9 @@ class LanguageDecoder:
     def __init__(self):
         pass
     
+    def goodbye(self):
+        return self.load_template("goodbye")
+
     def decode(self, thought):
         intention = thought.intention
         props = thought.wm
@@ -43,7 +46,7 @@ class LanguageDecoder:
             respText += text
             i += 1
         respText = self.load_template("spread").format(key=assoc) + respText
-        return respText
+        return respText[:-1]
     
     def decode_psychoanalysis(self, props, impl):
         key = impl[1]        

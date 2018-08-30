@@ -2,6 +2,8 @@ from .thought import Thought
 from .wikipedia import Wikipedia
 import numpy as np
 import logging
+import json
+from os.path import abspath, dirname, join
 
 logger = logging.getLogger("Sketchpad.Creativity")
 wiki = Wikipedia()
@@ -11,6 +13,14 @@ class Creativity:
     def __init__(self, props, memory):
         self.props = props
         self.memory = memory
+        try:
+            basepath = dirname(abspath(__file__))
+            with open(join(basepath, "../data/stop_words.json"), 
+                    "r", encoding="UTF-8") as fin:
+                self.stop_words = json.load(fin)
+        except Exception as ex:
+            logger.error(ex)
+            self.stop_words = {}
 
     def diversify(self):
         
@@ -56,8 +66,10 @@ class Creativity:
         else:
             trace = self.memory.get("trace", []).copy()
             visited_list = self.memory.get("visited", [])
-            
-            for visited in visited_list:
+            stop_list = self.stop_words.get("wikipedia_stops", [])
+
+            removal_list = visited_list + stop_list
+            for visited in removal_list:
                 if visited in trace:
                     trace.remove(visited)
 
@@ -87,6 +99,9 @@ class Creativity:
 
         thought.implicit = ("assoc", self.memory["working"])
         thought.intention = "spread"
+        visited_list = self.memory.get("visited", [])
+        visited_list.append(self.memory["working"])
+        self.memory["visited"] = visited_list
         return thought
     
     def psychoanalysis(self):

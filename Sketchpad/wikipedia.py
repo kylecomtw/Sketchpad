@@ -19,9 +19,10 @@ class Wikipedia:
         for i in range(3):
             try:
                 content = wikipedia.summary(title, sentences=1)
-            except DisambiguationError:
+            except DisambiguationError as ex:                
                 logger.warning("Disambiguation error when finding summary, try searching")
-                title = wikipedia.search(title)[0]                
+                title = ex.options[0]
+
         if not content:
             raise Exception("Search failed in Wikipedia")
         title = self.hv.toTraditional(title)

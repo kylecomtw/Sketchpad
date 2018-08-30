@@ -6,7 +6,7 @@ pursue_templates = [
 
 spread_templates = [
     "至於{key}...",
-    "{key}！"
+    "{key}，"
 ]
 
 reflection_templates = [
@@ -19,7 +19,11 @@ elicit_templates = [
 ]
 
 connectives_templates = [
-    "而且", "還有", "也", "還是"
+    "而且", "還有", "也"
+]
+
+goodbye_templates = [
+    "好了，我的白日夢做夠了。我應該要去做真的夢了，晚安～"
 ]
 
 script_templates = {
@@ -27,5 +31,6 @@ script_templates = {
     "spread": spread_templates,    
     "psychoanalysis": reflection_templates,
     "random": elicit_templates,
-    "connectives": connectives_templates
+    "connectives": connectives_templates,
+    "goodbye": goodbye_templates
 }
